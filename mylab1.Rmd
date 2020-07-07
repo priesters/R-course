@@ -1,0 +1,110 @@
+---
+title: "lab  1"
+author: "Ren Meng"
+date: "2020/7/7"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Part 1
+1.
+```{r}
+exp.draw.1<- rexp(n = 200,rate = 1)
+mean(exp.draw.1)
+sd(exp.draw.1)
+```
+
+2.
+```{r}
+exp.draw.0.1<- rexp(200,0.1)
+mean(exp.draw.0.1)
+sd(exp.draw.0.1)
+exp.draw.0.5<- rexp(200,0.5)
+mean(exp.draw.0.5)
+sd(exp.draw.0.5)
+exp.draw.5<- rexp(200,5)
+mean(exp.draw.5)
+sd(exp.draw.5)
+exp.draw.10<- rexp(200,10)
+mean(exp.draw.10)
+sd(exp.draw.10)
+```
+
+3
+a.
+```{r}
+hist(exp.draw.1)
+```
+b.
+```{r}
+plot(exp.draw.1)
+```
+c.
+```{r}
+plot(exp.draw.0.1,col="green",type = "p",ann=FALSE,xlim = c(0,200),ylim = c(0,60))
+par(new=TRUE)
+plot(exp.draw.0.5,ann = FALSE,xlim = c(0,200),ylim = c(0,60))
+```
+
+4.
+```{r}
+mean5<-c(mean(exp.draw.1),mean(exp.draw.0.1),mean(exp.draw.0.5),mean(exp.draw.5),mean(exp.draw.10))
+sd5<-c(sd(exp.draw.1),sd(exp.draw.0.1),sd(exp.draw.0.5),sd(exp.draw.5),sd(exp.draw.10))
+x<-c(1,0.1,0.5,5,10)
+plot(x,mean5,type = "p")
+plot(x,sd5,type = "p")
+plot(sd5,mean5,type = "p")
+```
+
+## Part 2
+5.
+a.
+```{r}
+big.exp.draw<-rexp(1100000,1)
+big.exp.draw.1<-matrix(big.exp.draw)
+mean(big.exp.draw.1)
+sd(big.exp.draw.1)
+```
+
+b.
+```{r}
+hist(big.exp.draw.1)
+```
+The histogram matches the function.It should .
+
+c.
+```{r}
+biger1<-big.exp.draw.1[big.exp.draw.1>1]
+mean(biger1)
+```
+
+d.
+```{r}
+big.exp.draw.1.mat<-matrix(big.exp.draw.1,nrow=1100,ncol = 1000)
+hist(big.exp.draw.1.mat)
+```
+
+e.
+```{r}
+b<-big.exp.draw.1.mat[,371]
+mean(b)
+```
+
+f.
+```{r}
+c<-colMeans(big.exp.draw.1.mat)
+hist(c)
+```
+
+因为矩阵中元素的分布是符合标准指数分布，但生成矩阵再求均值，不能显示随机数生成的概率。
+
+g.
+```{r}
+d<-big.exp.draw.1*big.exp.draw.1
+mean(d)
+
+```
+
