@@ -1,0 +1,78 @@
+---
+title: "lab  2"
+author: "Ren Meng"
+date: "2020/7/7"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+```
+
+
+##Part 1
+```{r}
+p1 <- ggplot(ChickWeight, aes(x=Time, y=weight, colour=Diet)) +
+    geom_point(alpha=.8) +
+    geom_smooth(alpha=.2, size=0.5) +
+    ggtitle("Fitted growth curve per diet")
+p1
+```
+
+p1画出以times为x轴，weight为y轴，不同颜色值表示不同的对象的diet值。ase（）为映射，将数据中的各个属性映射到坐标轴或者其它几何要素上。geom_point()函数表示增加散点图图层，用于画出散点图，参数alpha是透明度，值在0到1之间。散点图的数据较多噪点较大，那么数据显示的趋势就不是十分的明显，geom—_point（）函数添加一条平滑的趋势曲线并显示标准误差，灰色部分是置信区间，参数size是曲线的粗细。
+最后给图片增加标题。
+```{r}
+p2 <- ggplot(subset(ChickWeight, Time==21), aes(x=weight, colour=Diet)) +
+    geom_density(size=2) +
+    ggtitle("Final weight, by diet")+theme_bw()
+p2
+```
+
+p2画的是ChickWeight中times值为21的子集的数据。ase（）将weight设成了x轴，，不同颜色值表示不同的对象的diet值。geom_density()做出一条拟合曲线。
+
+
+```{r}
+p3 <- ggplot(subset(ChickWeight, Time==21), aes(x=weight, fill=Diet)) +
+    geom_histogram(colour="black", binwidth=50) +
+    facet_grid(Diet ~ .) +
+    ggtitle("Final weight, by diet") +
+    theme(legend.position="none")        # No legend (redundant in this graph)
+p3
+```
+
+geom_histogram()：直方图又称质量分布图，由一系列高度不等的纵向条纹或线段表示数据分布的情况。其中binwidth参数可以用来设置组距，通过组距调节平滑度。
+p3做出分面直方图，取ChickWeight中times值为21的子集的数据。x轴是weight，通过diet的不同形成四个对象的直方图。
+
+
+
+##Part 2:exercise
+```{r}
+#Southeast US National Parks
+se <- read_csv("data/se.csv")
+head(se)
+ggplot(se,aes(y=park_name,x=year,colour=visitors))+
+  geom_point()
+```
+```{r}
+ggplot(se,aes(y=visitors,x=park_name,colour=state))+
+  geom_point()
+  
+```
+```{r}
+ggplot(se,aes(y=visitors,x=park_name,colour=state))+
+  geom_point()+
+  theme(axis.text.x = element_text(angle = 45, hjust = 0.5, vjust = 0.5,size=7)) +
+    theme(legend.title=element_blank())+
+  xlab("")
+```
+
+In the code below, why isn’t the data showing up?
+```{r, eval = F}
+ggplot(data = se, aes(x = year, y = visitors))
+```
+
+没有在上面加入点图层，线图层或其他图层。
+
+
+
