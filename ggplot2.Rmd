@@ -1,0 +1,41 @@
+---
+title: "ggplot"
+author: "Ren Meng"
+date: "2020/7/6"
+output: html_document
+---
+
+Learn datavisulization with 'ggplot2'
+
+```{r}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(MASS)
+library(conflicted)
+```
+
+
+```{r, message = F}
+#National Parks in California
+ca <- read_csv("data/ca.csv") 
+
+#Acadia National Park
+acadia <- read_csv("data/acadia.csv")
+
+#Southeast US National Parks
+se <- read_csv("data/se.csv")
+
+#2016 Visitation for all Pacific West National Parks
+visit_16 <- read_csv("data/visit_16.csv")
+
+#All Nationally designated sites in Massachusetts
+mass <- read_csv("data/mass.csv")
+head(ca)
+```
+
+```{r}
+ggplot(ca)+
+  geom_point(aes(year,visitors),alpha=1,size=0.5
+             )
+```
+
