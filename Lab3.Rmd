@@ -1,0 +1,70 @@
+---
+title: 'Lab 3: Data Wrangling on Soccer Tournament Data'
+date: 'July 9, 2020'
+output:
+  html_document: default
+  pdf_document: default
+---
+```{r setup, message = F, include=FALSE}
+library(tidyverse)
+```
+
+Soccer tournament data wrangling
+--------------------------
+Read the dataset of football games.
+```{r}
+
+ d<-read_csv("C:/Users/18747/Documents/github/R-course/data/results.csv",)
+ head(d)
+ 
+```
+
+1. Select variables `date`, `home_team` and `away_team`.
+```{r}
+d%>%select(date)
+d%>%select(home_team)
+d%>%select(away_team)
+```
+2. Subset games with **Brazil** as the home team.
+```{r}
+d%>%filter(home_team=="Brazil")
+```
+
+3. Choose the games that Brazil won as the home team, and select variables `date`, `away_team` and `tournament`.
+```{r}
+d%>%filter(home_team=="Brazil" & home_score>away_score )%>%select(date,away_team,tournament)
+```
+
+4. Add the difference of goals, and an indicator variable called `goleada` for when the difference of goals is large,  and select what we did only for Brazil. **Hint: use `ifelse`**.
+```{r}
+c<-d%>%mutate(goleada=abs(home_score-away_score))%>%filter(home_team=="Brazil"|away_team=="Brazil")%>%arrange(goleada)%>%filter(goleada>5)
+```
+
+5. What was the largest difference in goals within these games?
+```{r}
+b<-c%>%arrange(desc(goleada))
+b[1,]
+```
+
+6. The top 5 goleadas?
+```{r}
+b[c(1:5),]
+```
+7. Summary on goals scored by home teams, such as `mean` of `home_score` and `away_score`, `std`, using `group_by` and `summarise`
+```{r}
+d%>%group_by(home_team)%>%summarize(mean1=mean(away_score))
+d%>%group_by(home_team)%>%summarize(mean2=mean(home_score))
+```
+
+8. Proportion of victories of **Brazil** on different tournaments against each opponent, for instance, **Argentina**.
+```{r}
+e<-d%>%filter((home_team=="Brazil"&away_team=="Argentina")|(away_team=="Brazil"&home_team=="Argentina"))%>%filter(home_team=="Argentina")
+
+f<-e%>%filter(home_score<away_score)
+
+g<-d%>%filter((home_team=="Brazil"&away_team=="Argentina")|(away_team=="Brazil"&home_team=="Argentina"))%>%filter(home_team=="Brazil")
+
+h<-g%>%filter(home_score>away_score)
+
+(dim(f)[1]+dim(h)[1])/(dim(g)[1]+dim(e)[1])
+```
